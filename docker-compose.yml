@@ -141,6 +141,8 @@ services:
 networks:
   net:
     driver: overlay
+  agent-network:
+    attachable: true  
   traefik-net:
     driver: overlay
     external: true
@@ -148,3 +150,4 @@ networks:
 volumes:
   db-data:
     driver: local
+  portainer-data:  
