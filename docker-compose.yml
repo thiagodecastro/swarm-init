@@ -1,36 +1,5 @@
 version: "3.3"
 services:
-  agent:
-    image: portainer/agent
-    environment:
-      AGENT_CLUSTER_ADDR: tasks.agent
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - /var/lib/docker/volumes:/var/lib/docker/volumes
-    networks:
-      - agent-network
-    deploy:
-      mode: global
-      
-
-  portainer:
-    image: portainer/portainer
-    command: -H tcp://tasks.agent:9001 --tlsskipverify
-    volumes:
-      - portainer-data:/data
-    networks:
-      - agent-network
-      - traefik-net
-    deploy:
-      placement:
-        constraints:
-          - node.role == manager
-          - node.labels.portainer.portainer-data == true
-      labels:
-        traefik.enable: 'true'
-        traefik.docker.network: traefik-net
-        traefik.frontend.rule: "Host:portainer.${DOMAIN_NAME}"
-        traefik.port: 9000
   traefik:
     image: traefik:1.7.9
     command:
@@ -141,8 +110,6 @@ services:
 networks:
   net:
     driver: overlay
-  agent-network:
-    attachable: true  
   traefik-net:
     driver: overlay
     external: true
@@ -150,4 +117,3 @@ networks:
 volumes:
   db-data:
     driver: local
-  portainer-data:  
