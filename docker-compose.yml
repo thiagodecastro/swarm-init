@@ -1,0 +1,150 @@
+version: "3.3"
+services:
+  agent:
+    image: portainer/agent
+    environment:
+      AGENT_CLUSTER_ADDR: tasks.agent
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/lib/docker/volumes:/var/lib/docker/volumes
+    networks:
+      - agent-network
+    deploy:
+      mode: global
+      
+
+  portainer:
+    image: portainer/portainer
+    command: -H tcp://tasks.agent:9001 --tlsskipverify
+    volumes:
+      - portainer-data:/data
+    networks:
+      - agent-network
+      - traefik-net
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
+          - node.labels.portainer.portainer-data == true
+      labels:
+        traefik.enable: 'true'
+        traefik.docker.network: traefik-net
+        traefik.frontend.rule: "Host:portainer.${DOMAIN_NAME}"
+        traefik.port: 9000
+  traefik:
+    image: traefik:1.7.9
+    command:
+      - "--api"
+      - "--entrypoints=Name:http Address::80"
+      - "--defaultentrypoints=http"
+      - "--docker"
+      - "--docker.swarmMode"
+      - "--docker.domain=${DOMAIN_NAME}"
+      - "--docker.watch"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - traefik-net
+    ports:
+      - 80:80
+    deploy:
+      labels:
+        traefik.enable: 'true'
+        traefik.docker.network: traefik-net
+        traefik.frontend.rule: "Host:traefik.${DOMAIN_NAME}"
+        traefik.port: 8080
+      placement:
+        constraints:
+          - node.role == manager
+      update_config:
+        parallelism: 1
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+
+  swarmpit:
+    image: swarmpit/swarmpit:1.7
+    environment:
+      - SWARMPIT_DB=http://swarmpit_db:5984
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - net
+      - traefik-net
+    deploy:
+      labels:
+        traefik.enable: 'true'
+        traefik.docker.network: traefik-net
+        traefik.frontend.rule: "Host:swarmpit.${DOMAIN_NAME}"
+        traefik.port: 8080
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 1024M
+        reservations:
+          cpus: '0.25'
+          memory: 512M
+      placement:
+        constraints:
+          - node.role == manager
+
+  swarmpit_db:
+    image: couchdb:2.3.0
+    volumes:
+      - db-data:/opt/couchdb/data
+    networks:
+      - net
+    deploy:
+      resources:
+        limits:
+          cpus: '0.30'
+          memory: 512M
+        reservations:
+          cpus: '0.15'
+          memory: 256M
+      placement:
+        constraints:
+          - node.role == manager
+
+  swarmpit_agent:
+    image: swarmpit/agent:2.1
+    environment:
+      - EVENT_ENDPOINT=http://swarmpit:8080/events
+      - HEALTH_CHECK_ENDPOINT=http://swarmpit:8080/version
+      - DOCKER_API_VERSION=1.35
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - net
+    deploy:
+      mode: global
+      labels:
+        swarmpit.agent: 'true'
+      resources:
+        limits:
+          cpus: '0.10'
+          memory: 64M
+        reservations:
+          cpus: '0.05'
+          memory: 32M
+
+  cluster_cleanup:
+    image: docker
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    command: docker system prune --all --force
+    deploy:
+      mode: global
+      restart_policy:
+        delay: 24h
+
+networks:
+  net:
+    driver: overlay
+  traefik-net:
+    driver: overlay
+    external: true
+
+volumes:
+  db-data:
+    driver: local
