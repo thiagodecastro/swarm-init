@@ -1,7 +1,7 @@
 version: "3.3"
 services:
   agent:
-    image: portainer/agent
+    image: portainer/agent:2.9.3
     environment:
       AGENT_CLUSTER_ADDR: tasks.agent
     volumes:
@@ -14,7 +14,7 @@ services:
       
 
   portainer:
-    image: portainer/portainer
+    image: portainer/portainer:2.9.3
     command: -H tcp://tasks.agent:9001 --tlsskipverify
     volumes:
       - portainer-data:/data
@@ -63,7 +63,7 @@ services:
         condition: on-failure
 
   swarmpit:
-    image: swarmpit/swarmpit:1.7
+    image: swarmpit/swarmpit:1.9
     environment:
       - SWARMPIT_DB=http://swarmpit_db:5984
     volumes:
@@ -89,7 +89,7 @@ services:
           - node.role == manager
 
   swarmpit_db:
-    image: couchdb:2.3.0
+    image: couchdb:3.2
     volumes:
       - db-data:/opt/couchdb/data
     networks:
@@ -107,7 +107,7 @@ services:
           - node.role == manager
 
   swarmpit_agent:
-    image: swarmpit/agent:2.1
+    image: swarmpit/agent:2.2
     environment:
       - EVENT_ENDPOINT=http://swarmpit:8080/events
       - HEALTH_CHECK_ENDPOINT=http://swarmpit:8080/version
