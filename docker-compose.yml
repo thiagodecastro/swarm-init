@@ -14,7 +14,7 @@ services:
       
 
   portainer:
-    image: portainer/portainer:2.9.3
+    image: portainer/portainer-ce:2.9.3
     command: -H tcp://tasks.agent:9001 --tlsskipverify
     volumes:
       - portainer-data:/data
@@ -32,7 +32,7 @@ services:
         traefik.frontend.rule: "Host:portainer.${DOMAIN_NAME}"
         traefik.port: 9000
   traefik:
-    image: traefik:1.7.9
+    image: traefik:v2.6
     command:
       - "--api"
       - "--entrypoints=Name:http Address::80"
@@ -63,7 +63,7 @@ services:
         condition: on-failure
 
   swarmpit:
-    image: swarmpit/swarmpit:1.9
+    image: swarmpit/swarmpit:latest
     environment:
       - SWARMPIT_DB=http://swarmpit_db:5984
     volumes:
@@ -89,7 +89,7 @@ services:
           - node.role == manager
 
   swarmpit_db:
-    image: couchdb:3.2
+    image: couchdb:2.3.0
     volumes:
       - db-data:/opt/couchdb/data
     networks:
@@ -107,7 +107,7 @@ services:
           - node.role == manager
 
   swarmpit_agent:
-    image: swarmpit/agent:2.2
+    image: swarmpit/agent:latest
     environment:
       - EVENT_ENDPOINT=http://swarmpit:8080/events
       - HEALTH_CHECK_ENDPOINT=http://swarmpit:8080/version
