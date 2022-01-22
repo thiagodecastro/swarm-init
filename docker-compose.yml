@@ -1,7 +1,7 @@
 version: "3.3"
 services:
   agent:
-    image: portainer/agent:2.9.3
+    image: portainer/agent
     environment:
       AGENT_CLUSTER_ADDR: tasks.agent
     volumes:
@@ -14,7 +14,7 @@ services:
       
 
   portainer:
-    image: portainer/portainer-ce:2.9.3
+    image: portainer/portainer
     command: -H tcp://tasks.agent:9001 --tlsskipverify
     volumes:
       - portainer-data:/data
@@ -32,7 +32,7 @@ services:
         traefik.frontend.rule: "Host:portainer.${DOMAIN_NAME}"
         traefik.port: 9000
   traefik:
-    image: traefik:v2.6
+    image: traefik:1.7.9
     command:
       - "--api"
       - "--entrypoints=Name:http Address::80"
@@ -63,7 +63,7 @@ services:
         condition: on-failure
 
   swarmpit:
-    image: swarmpit/swarmpit:latest
+    image: swarmpit/swarmpit:1.7
     environment:
       - SWARMPIT_DB=http://swarmpit_db:5984
     volumes:
@@ -107,7 +107,7 @@ services:
           - node.role == manager
 
   swarmpit_agent:
-    image: swarmpit/agent:latest
+    image: swarmpit/agent:2.1
     environment:
       - EVENT_ENDPOINT=http://swarmpit:8080/events
       - HEALTH_CHECK_ENDPOINT=http://swarmpit:8080/version
