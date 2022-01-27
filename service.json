@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "auth-thiago",
+  "private_key_id": "f223c89d9ab73c2f5464fdcd49e6902473c78b42",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQC1fAiDPkBHXzh7\ndzcIiL3Ih1qSNV/4Ee+brhzhWEfzQXrGoZptdO/4XkmE+/f2PDrFIMI+GkgiPIgK\nFTSJCKGEcROV/J/M3ADxMqs+evwmDgcgIjzn1687jlzZ+8i8TxVhsYsxb3yAnZHR\n5gZnqxFS+NcLtitAixcpLojBgHRBtvRzUgglbPBbbVf3STilMcK/m/lkXDEU7dwK\navSI+ecZJEfFl6BEh+OWye40szIAhMTgAq2ybx4P3JYqeJLAGrHWoIHtdOkqIF14\nGL3PX3JpAQ0bJvruWp6YseH5/9+5u7b6edD5s3i0QoGmMAt1lEHIhVqIYCTUG0n5\n+qiQ1t4FAgMBAAECggEABi+2MpMaqdQrHrpPm/DdV0qV4coD/XbPDiV/Qoc53Kbs\nwnybwQNtcq/0HZ5hM3mWH0YgmPFYaCJcGMvkQI+UwekA2+oCoH8XYSFzCOw0UC/G\nOmgwX07Q4FzX+W5Fx3WCqxPcRNEiE1hLsjX/HeWM76Ef43xQOSEEpxi4/K+eRucg\n794IsoWbaUgfm4LAeZqv2ZY1jpQb0buQyVgyc6LsGYTZHirsKoAfvznf7njIxTlS\nDv8A1lOMTH3G2sDwNKQ+BhJtXuqV9cgTnRS8GLZAnJpIIpTtVyP5Pm2u6kY9GOMD\nMYEuzH4J3OmOhYILhpB/S52I90xF7EEfWCNI+r4dAQKBgQDmUSQwonDZsLC7NzIb\n85Vy304Ys+s0Oi8/lQymzdcZ/qN2gvf/wtjwqoXpf0qgcVg5Mw1rLUvxArh6QbH8\n5iw4c/cHgTmKPs0OUsAP3RrQ2Si8F0/XmNKqv66WGbemk0vI/ea63dINN2ybVCO2\n0XK3FyJ1hVDi7YSyLKQNN+KAZQKBgQDJuN8qpGkwO91Irmbexd/79odFq3AGf5ls\ndFbDjSQ037kfwSEUFQQtcIyJmK2j5KZTQn6PmmhRfL7iUq7ejRpmyQ5iNFDQUum5\nWu+T4fS5Eet7xhFcKhCAwCeVOGLheO5uRWmRrVE4uo2KwOiwPtQX27DAPzF+zbdp\nl2ha8Xd9IQKBgQCAiSI4Xj+6zegj4478mHl8bXFpSefm8t3xjx5LbS8xm7HgbwE2\n5Kgr0A8CG/8rAXaqHXrMqK/sJoeL+2P47wAY1Wc08gKJy7im2LnFYLEZg0g/iIcP\nnINdtbIapOmgdi3iUwjUmv0iUR80pMV1vvhVg/zAN5HHw6S9xzobAmhPHQKBgQDF\nWSxbl4WhPq/6j0Ts5UGAS2uD6XkromIDDL5ligvF/qoqOtOVxgnUOqwDYW9fTC68\nfe07qKAuOJC28pVJ/Vm6/TApO21kofku8Zw5XXICLVnoOZp6RFzo2RTgk82JMLpy\n/02My7cOfNREzv3Wj2EIBlIhgrF1kOTDVPEvJ9TygQKBgQDCt31IhFzqX82wjcN2\ndJRINrYud9xi+q/nWXrVM1rRWJzKi7cQWippHe6I1toB7RYPdktzs5uxFUt+p6aM\nMG0xVI8OYUN+8yHDcBHPSzp3tyZ9rJFOuk4beREAuK9idubr386jtA2/qyLOopI+\ny6m2av+L/HXjJ2kvytJ6UvNTYQ==\n-----END PRIVATE KEY-----\n",
+  "client_email": "valtcorp@auth-thiago.iam.gserviceaccount.com",
+  "client_id": "100883013406343507294",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/valtcorp%40auth-thiago.iam.gserviceaccount.com"
+}
