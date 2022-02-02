@@ -1,7 +1,7 @@
 version: "3.3"
 services:
   agent:
-    image: portainer/agent
+    image: portainer/agent:latest
     environment:
       AGENT_CLUSTER_ADDR: tasks.agent
     volumes:
@@ -14,8 +14,11 @@ services:
       
 
   portainer:
-    image: portainer/portainer
+    image: portainer/portainer-ce:latest
     command: -H tcp://tasks.agent:9001 --tlsskipverify
+    dns:
+      - 1.1.1.1
+      - 8.8.8.8
     volumes:
       - portainer-data:/data
     networks:
@@ -29,8 +32,9 @@ services:
       labels:
         traefik.enable: 'true'
         traefik.docker.network: traefik-net
-        traefik.frontend.rule: "Host:portainer.${DOMAIN_NAME}"
+        traefik.frontend.rule: "Host:portal.${DOMAIN_NAME}"
         traefik.port: 9000
+  
   traefik:
     image: traefik:1.7.9
     command:
@@ -43,6 +47,9 @@ services:
       - "--docker.watch"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+    dns:
+      - 1.1.1.1
+      - 8.8.8.8
     networks:
       - traefik-net
     ports:
@@ -63,11 +70,14 @@ services:
         condition: on-failure
 
   swarmpit:
-    image: swarmpit/swarmpit:1.7
+    image: swarmpit/swarmpit:latest
     environment:
       - SWARMPIT_DB=http://swarmpit_db:5984
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
+    dns:
+      - 1.1.1.1
+      - 8.8.8.8
     networks:
       - net
       - traefik-net
@@ -75,7 +85,7 @@ services:
       labels:
         traefik.enable: 'true'
         traefik.docker.network: traefik-net
-        traefik.frontend.rule: "Host:swarmpit.${DOMAIN_NAME}"
+        traefik.frontend.rule: "Host:swarm.${DOMAIN_NAME}"
         traefik.port: 8080
       resources:
         limits:
